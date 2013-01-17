@@ -7,7 +7,7 @@
 	<key>category</key>
 	<string>SCRIPTS</string>
 	<key>command</key>
-	<string>python alarm.py "{query}"</string>
+	<string>python timer.py "{query}"</string>
 	<key>disabled</key>
 	<false/>
 	<key>escapedollar</key>

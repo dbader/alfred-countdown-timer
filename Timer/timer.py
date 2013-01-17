@@ -32,7 +32,7 @@ import objc
 
 def main():
     minutes = read_time()
-    notify('Alarm set to %i %s' % (minutes, 'minute' if minutes == 1 else 'minutes'))
+    notify('Timer set to %i %s' % (minutes, 'minute' if minutes == 1 else 'minutes'))
 
     time.sleep(minutes * 60)
 
@@ -40,15 +40,22 @@ def main():
     play_sound('alarm.m4a')
 
 def read_time():
-    """Parse the desired countdown time from the commandline."""
+    """Parse and return the desired countdown time in minutes from the commandline."""
     try:
-        return float(sys.argv[1])
+        time = sys.argv[1]
+        if ':' in time:
+            # Minutes and seconds, e.g. "5:30"
+            minutes, seconds = time.split(':')
+            return float( int(minutes) + int(seconds) / 60.0 )
+        else:
+            # Just minutes, e.g. "1.5"
+            return float(time)
     except:
         show_usage()
         sys.exit(1)
 
 def show_usage():
-    notify('Alarm usage', 'alarm [minutes]')
+    notify('Timer usage', 'timer [minutes]')
 
 def notify(title, subtitle=None):
     """Display a NSUserNotification on Mac OS X >= 10.8"""

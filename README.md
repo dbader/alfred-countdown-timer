@@ -23,5 +23,5 @@ To use this extension you need [Alfred.app](http://www.alfredapp.com/) for OS X 
 
 ## Usage
 - `timer 5` sets a countdown timer that goes off after 5 minutes.
-- `timer 0.5` sets a timer that goes off after 30 seconds.
+- `timer 0:30` or `timer 0.5` sets a timer that goes off after 30 seconds.
 - `timer` displays usage information.
