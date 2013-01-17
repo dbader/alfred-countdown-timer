@@ -3,8 +3,9 @@ A simple countdown timer command for [Alfred.app](http://alfredapp.com) that use
 
 ## Installation
 - Download [Timer.alfredextension](https://github.com/dbader/alfred-countdown-timer/blob/master/Timer.alfredextension?raw=true)
-- Double-click Timer.alfredextension to install the extension.
-- 
+
+- Double-click `Timer.alfredextension` to install the extension.
+
 To use this extension you need [Alfred.app](http://alfredapp.com) for OS X.
 
 
