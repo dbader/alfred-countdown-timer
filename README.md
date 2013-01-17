@@ -4,6 +4,8 @@ A simple countdown timer command for [Alfred.app](http://www.alfredapp.com/) tha
 ## Benefits
 - Helps you make great tea.
 
+- Solves your [Pomodoro](http://en.wikipedia.org/wiki/Pomodoro_Technique) needs.
+
 - Uses Mountain Lion's User Notifications to tell you when time's up.
 
 - Plays a non-intrusive alarm sound.
