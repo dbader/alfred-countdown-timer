@@ -31,25 +31,35 @@ import subprocess
 import objc
 
 def main():
-    minutes = read_time()
-    notify('Timer set to %i %s' % (minutes, 'minute' if minutes == 1 else 'minutes'))
+    interval = read_time()
+    minutes = interval / 60
+    seconds = interval % 60
 
-    time.sleep(minutes * 60)
+    if minutes and seconds:
+        notify('Timer started.', "I'll notify you in %i:%.2i." % (minutes, seconds))
+        passed_time = '%i:%.2i have passed.' % (minutes, seconds)
+    elif minutes:
+        notify('Timer started.', "I'll notify you in %i %s." % (minutes, 'minute' if minutes == 1 else 'minutes'))
+        passed_time = '%i %s passed.' % (minutes, 'minute has' if minutes == 1 else 'minutes have')
+    else:
+        notify('Timer started.', "I'll notify you in %i seconds." % seconds)
+        passed_time = '%i seconds have passed.' % seconds
 
-    notify("Time's up!", '%i %s passed.' % (minutes, 'minute has' if minutes == 1 else 'minutes have'))
+    time.sleep(interval)
+    notify("Time's up.", passed_time)
     play_sound('alarm.m4a')
 
 def read_time():
-    """Parse and return the desired countdown time in minutes from the commandline."""
+    """Parse and return the desired countdown time in seconds from the commandline."""
     try:
         time = sys.argv[1]
         if ':' in time:
             # Minutes and seconds, e.g. "5:30"
             minutes, seconds = time.split(':')
-            return float( int(minutes) + int(seconds) / 60.0 )
+            return int(minutes) * 60 + int(seconds)
         else:
             # Just minutes, e.g. "1.5"
-            return float(time)
+            return int( float(time) * 60 )
     except:
         show_usage()
         sys.exit(1)
@@ -69,7 +79,8 @@ def notify(title, subtitle=None):
     if subtitle:
         notification.setSubtitle_(str(subtitle))
 
-    NSUserNotificationCenter.defaultUserNotificationCenter().scheduleNotification_(notification)
+    notifcation_center = NSUserNotificationCenter.defaultUserNotificationCenter()
+    notifcation_center.scheduleNotification_(notification)
 
 def play_sound(filename):
     subprocess.Popen(['afplay', filename])

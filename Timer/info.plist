@@ -36,9 +36,9 @@
 	<integer>0</integer>
 	<key>silent</key>
 	<true/>
-	<key>subtitle</key>
-	<string>Start a countdown</string>
 	<key>title</key>
-	<string>A countdown timer</string>
+	<string>Start a countdown timer</string>
+	<key>subtitle</key>
+	<string>Example: timer 5:30</string>
 </dict>
 </plist>
