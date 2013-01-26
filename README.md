@@ -1,25 +1,20 @@
-# A countdown timer extension for Alfred.app
+# [A countdown timer extension for Alfred.app](http://dbader.org/blog/alfred-timer-extension)
 A simple countdown timer command for [Alfred.app](http://www.alfredapp.com/) that uses Mountain Lion User Notifications.
+
+The extension is described in closer detail on my [blog](http://dbader.org/blog/alfred-timer-extension).
 
 ## Benefits
 - Helps you make great tea.
-
 - Solves your [Pomodoro](http://en.wikipedia.org/wiki/Pomodoro_Technique) needs.
-
 - Uses Mountain Lion's User Notifications to tell you when time's up.
-
 - Plays a non-intrusive alarm sound.
-
 - Shows you how to write Alfred extensions in Python.
-
 
 ## Installation
 - Download [Timer.alfredextension](https://github.com/dbader/alfred-countdown-timer/blob/master/Timer.alfredextension?raw=true)
-
 - Double-click `Timer.alfredextension` to install the extension.
 
 To use this extension you need [Alfred.app](http://www.alfredapp.com/) for OS X and the [Alfred PowerPack](http://www.alfredapp.com/powerpack/).
-
 
 ## Usage
 - `timer 5` sets a countdown timer that goes off after 5 minutes.
