@@ -1,6 +1,8 @@
 # [A countdown timer extension for Alfred.app](http://dbader.org/blog/alfred-timer-extension)
 A simple countdown timer command for [Alfred.app](http://www.alfredapp.com/) that uses Mountain Lion User Notifications.
 
+![Demo screenshot](https://raw.github.com/dbader/alfred-countdown-timer/master/screenshot.png)
+
 The extension is described in closer detail on my [blog](http://dbader.org/blog/alfred-timer-extension).
 
 ## Benefits
