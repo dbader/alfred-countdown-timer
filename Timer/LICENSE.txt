@@ -1,10 +1,10 @@
-The icon is from ~MazeNL77 nx10 icon set.
+The icon is from ~MazeNL77's "nx10" icon set.
 
 The sound is "Ice" from Nitram+Nunca's awesome "Minutes" dashboard widget.
 Sadly, the company seems to have vanished. I love this sound and use
 it on all my devices as an alarm sound. So Nitram+Nunca, I hope it is okay
 for you that I include your sound file. If not please contact me and I will
-take it offline,
+take it offline.
 
 The rest of the project is released under the MIT license.
 
