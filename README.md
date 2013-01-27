@@ -10,6 +10,8 @@ The extension is described in closer detail on my [blog](http://dbader.org/blog/
 - Solves your [Pomodoro](http://en.wikipedia.org/wiki/Pomodoro_Technique) needs.
 - Uses Mountain Lion's User Notifications to tell you when time's up.
 - Plays a non-intrusive alarm sound.
+- Allows you to run multiple timers at the same time.
+- Allows you to add an optional label to the timer, e.g. "Laundry is done!". Thanks to [Alexander Lehmann](http://rudairandamacha.blogspot.de) for the suggestion.
 - Shows you how to write Alfred extensions in Python.
 
 ## Installation
@@ -21,4 +23,5 @@ To use this extension you need [Alfred.app](http://www.alfredapp.com/) for OS X 
 ## Usage
 - `timer 5` sets a countdown timer that goes off after 5 minutes.
 - `timer 0:30` or `timer 0.5` sets a timer that goes off after 30 seconds.
+- `timer 40 Laundry is done!` adds an optional title to the timer.
 - `timer` displays usage information.
