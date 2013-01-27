@@ -35,18 +35,21 @@ def main():
     minutes = interval / 60
     seconds = interval % 60
 
+    label = ' '.join(sys.argv[2:])
+    title = 'Timer started' + (': %s' % label.capitalize() if label else '.')
+
     if minutes and seconds:
-        notify('Timer started.', "I'll notify you in %i:%.2i." % (minutes, seconds))
+        notify(title, "I'll notify you in %i:%.2i." % (minutes, seconds))
         passed_time = '%i:%.2i have passed.' % (minutes, seconds)
     elif minutes:
-        notify('Timer started.', "I'll notify you in %i %s." % (minutes, 'minute' if minutes == 1 else 'minutes'))
+        notify(title, "I'll notify you in %i %s." % (minutes, 'minute' if minutes == 1 else 'minutes'))
         passed_time = '%i %s passed.' % (minutes, 'minute has' if minutes == 1 else 'minutes have')
     else:
-        notify('Timer started.', "I'll notify you in %i seconds." % seconds)
+        notify(title, "I'll notify you in %i seconds." % seconds)
         passed_time = '%i seconds have passed.' % seconds
 
     time.sleep(interval)
-    notify("Time's up.", passed_time)
+    notify("Time's up" + (': %s' % label.capitalize() if label else '.'), passed_time)
     play_sound('alarm.m4a')
 
 def read_time():
@@ -65,7 +68,7 @@ def read_time():
         sys.exit(1)
 
 def show_usage():
-    notify('Timer usage', 'timer [minutes]')
+    notify('Timer usage', 'timer [minutes] [optional: title]')
 
 def notify(title, subtitle=None):
     """Display a NSUserNotification on Mac OS X >= 10.8"""

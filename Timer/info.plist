@@ -7,13 +7,13 @@
 	<key>category</key>
 	<string>SCRIPTS</string>
 	<key>command</key>
-	<string>python timer.py "{query}"</string>
+	<string>python timer.py {query}</string>
 	<key>disabled</key>
 	<false/>
 	<key>escapedollar</key>
 	<false/>
 	<key>escapequery</key>
-	<true/>
+	<false/>
 	<key>escapequerybackquotes</key>
 	<true/>
 	<key>escapequerybrackets</key>
@@ -36,9 +36,9 @@
 	<integer>0</integer>
 	<key>silent</key>
 	<true/>
-	<key>title</key>
-	<string>Start a countdown timer</string>
 	<key>subtitle</key>
 	<string>Example: timer 5:30</string>
+	<key>title</key>
+	<string>Start a countdown timer</string>
 </dict>
 </plist>
