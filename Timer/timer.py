@@ -28,65 +28,61 @@ THE SOFTWARE.
 import sys
 import time
 import subprocess
-import objc
+from pync import Notifier
+class Timer:
+    def main(self):
+        interval = self.read_time()
+        minutes = interval / 60
+        seconds = interval % 60
 
-def main():
-    interval = read_time()
-    minutes = interval / 60
-    seconds = interval % 60
+        label = ' '.join(sys.argv[2:])
+        title = 'Timer started' + (': %s' % label.capitalize() if label else '.')
 
-    label = ' '.join(sys.argv[2:])
-    title = 'Timer started' + (': %s' % label.capitalize() if label else '.')
-
-    if minutes and seconds:
-        notify(title, "I'll notify you in %i:%.2i." % (minutes, seconds))
-        passed_time = '%i:%.2i have passed.' % (minutes, seconds)
-    elif minutes:
-        notify(title, "I'll notify you in %i %s." % (minutes, 'minute' if minutes == 1 else 'minutes'))
-        passed_time = '%i %s passed.' % (minutes, 'minute has' if minutes == 1 else 'minutes have')
-    else:
-        notify(title, "I'll notify you in %i seconds." % seconds)
-        passed_time = '%i seconds have passed.' % seconds
-
-    time.sleep(interval)
-    notify("Time's up" + (': %s' % label.capitalize() if label else '.'), passed_time)
-    play_sound('alarm.m4a')
-
-def read_time():
-    """Parse and return the desired countdown time in seconds from the commandline."""
-    try:
-        time = sys.argv[1]
-        if ':' in time:
-            # Minutes and seconds, e.g. "5:30"
-            minutes, seconds = time.split(':')
-            return int(minutes) * 60 + int(seconds)
+        if minutes and seconds:
+            self.notify(title, "I'll notify you in %i:%.2i." % (minutes, seconds))
+            passed_time = '%i:%.2i have passed.' % (minutes, seconds)
+        elif minutes:
+            self.notify(title, "I'll notify you in %i %s." % (minutes, 'minute' if minutes == 1 else 'minutes'))
+            passed_time = '%i %s passed.' % (minutes, 'minute has' if minutes == 1 else 'minutes have')
         else:
-            # Just minutes, e.g. "1.5"
-            return int( float(time) * 60 )
-    except:
-        show_usage()
-        sys.exit(1)
+            self.notify(title, "I'll notify you in %i seconds." % seconds)
+            passed_time = '%i seconds have passed.' % seconds
 
-def show_usage():
-    notify('Timer usage', 'timer [minutes] [optional: title]')
+        time.sleep(interval)
+        self.notify("Time's up" + (': %s' % label.capitalize() if label else '.'), passed_time)
+        self.play_sound('alarm.m4a')
 
-def notify(title, subtitle=None):
-    """Display a NSUserNotification on Mac OS X >= 10.8"""
-    NSUserNotification = objc.lookUpClass('NSUserNotification')
-    NSUserNotificationCenter = objc.lookUpClass('NSUserNotificationCenter')
-    if not NSUserNotification or not NSUserNotificationCenter:
-        return
+    def read_time(self):
+        """Parse and return the desired countdown time in seconds from the commandline."""
+        try:
+            time = sys.argv[1]
+            if ':' in time:
+                # Minutes and seconds, e.g. "5:30"
+                minutes, seconds = time.split(':')
+                return int(minutes) * 60 + int(seconds)
+            else:
+                # Just minutes, e.g. "1.5"
+                return int( float(time) * 60 )
+        except:
+            show_usage()
+            sys.exit(1)
 
-    notification = NSUserNotification.alloc().init()
-    notification.setTitle_(str(title))
-    if subtitle:
-        notification.setSubtitle_(str(subtitle))
+    def show_usage(self):
+        notify('Timer usage', 'timer [minutes] [optional: title]')
 
-    notifcation_center = NSUserNotificationCenter.defaultUserNotificationCenter()
-    notifcation_center.scheduleNotification_(notification)
+    def notify(self, title, subtitle=None):
+        """Display a NSUserNotification on Mac OS X >= 10.8"""
 
-def play_sound(filename):
-    subprocess.Popen(['afplay', filename])
+        Notifier.notify(subtitle, title=title)
+
+    def userNotificationCenter_didActivateNotification_(self, center, notification):
+        userInfo = notification.userInfo()
+        print "Delegated!"
+        return True
+
+    def play_sound(self, filename):
+        subprocess.Popen(['afplay', filename])
 
 if __name__ == '__main__':
-    main()
+    timer = Timer()
+    sys.exit(timer.main())
