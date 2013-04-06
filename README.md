@@ -15,6 +15,13 @@ The extension is described in closer detail on my [blog](http://dbader.org/blog/
 - Shows you how to write Alfred extensions in Python.
 
 ## Installation
+Depending on whether you're running Alfred 1 or Alfred 2 you need different versions of the extension. Please also note that this extension / workflow *requires OS X Mountain Lion (10.8) or greater* to work.
+
+### Alfred 2
+- Download [Timer.alfredworkflow](https://github.com/dbader/alfred-countdown-timer/blob/master/Timer.alfredworkflow?raw=true)
+- Double-click `Timer.alfredworkflow` to install the extension.
+
+### Alfred 1
 - Download [Timer.alfredextension](https://github.com/dbader/alfred-countdown-timer/blob/master/Timer.alfredextension?raw=true)
 - Double-click `Timer.alfredextension` to install the extension.
 
