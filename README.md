@@ -32,3 +32,11 @@ To use this extension you need [Alfred.app](http://www.alfredapp.com/) for OS X 
 - `timer 0:30` or `timer 0.5` sets a timer that goes off after 30 seconds.
 - `timer 40 Laundry is done!` adds an optional title to the timer.
 - `timer` displays usage information.
+
+##Meta
+
+Daniel Bader – [@dbader_org](https://twitter.com/dbader_org) – mail@dbader.org
+
+Distributed under the MIT license. See ``LICENSE.txt`` for more information.
+
+https://github.com/dbader/alfred-countdown-timer
