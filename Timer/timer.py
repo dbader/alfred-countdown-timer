@@ -28,6 +28,7 @@ THE SOFTWARE.
 import sys
 import time
 import subprocess
+import os
 import objc
 
 
@@ -112,7 +113,7 @@ def swizzle(*args):
     return decorator
 
 
-@swizzle(objc.lookUpClass('NSBundle'), 'bundleIdentifier')
+@swizzle(objc.lookUpClass('NSBundle'), b'bundleIdentifier')
 def swizzled_bundleIdentifier(self, original):
     """Swizzle [NSBundle bundleIdentifier] to make NSUserNotifications
     work.
@@ -122,14 +123,14 @@ def swizzled_bundleIdentifier(self, original):
     be difficult (impossible?) to implement in an Alfred Extension,
     we modify `bundleIdentifier` to return a fake bundle identifier.
 
-    This method currently returns the bundle identifier of the Finder.
-    Because of that the notification displays the Finder's icon. This
-    isn't really ideal but at least it makes notifications work again.
-
     Original idea for this approach by Norio Numura:
         https://github.com/norio-nomura/usernotification
     """
-    return 'com.apple.finder'
+    # Return Alfred's bundle identifier to display the Alfred.app logo.
+    if 'Alfred 2' in os.getcwd():
+        return 'com.runningwithcrayons.Alfred-2'
+    else:
+        return 'com.alfredapp.Alfred'
 
 
 def notify(title, subtitle=None):
@@ -137,7 +138,6 @@ def notify(title, subtitle=None):
     NSUserNotification = objc.lookUpClass('NSUserNotification')
     NSUserNotificationCenter = objc.lookUpClass('NSUserNotificationCenter')
     if not NSUserNotification or not NSUserNotificationCenter:
-        print('no nsusernotification')
         return
 
     notification = NSUserNotification.alloc().init()
