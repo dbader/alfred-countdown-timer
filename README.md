@@ -28,6 +28,7 @@ Depending on whether you're running Alfred 1 or Alfred 2 you need different vers
 To use this extension you need [Alfred.app](http://www.alfredapp.com/) for OS X and the [Alfred PowerPack](http://www.alfredapp.com/powerpack/).
 
 ## Usage
+- The general syntax is `timer [minutes] [optional:title]`
 - `timer 5` sets a countdown timer that goes off after 5 minutes.
 - `timer 0:30` or `timer 0.5` sets a timer that goes off after 30 seconds.
 - `timer 40 Laundry is done!` adds an optional title to the timer.
