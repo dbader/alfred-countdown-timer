@@ -49,6 +49,10 @@ To start a pomodoro-timer call `timerp` in Alfred.
 
 ![Notification Center information for pomodoro-timer](https://raw.github.com/gismo141/alfred-countdown-timer/master/Resources/nc_start_info.png)
 
+![Notification Center information when pomodoro-work-timer finishes](https://raw.github.com/gismo141/alfred-countdown-timer/master/Resources/nc_end_info.png)
+
+![Notification Center information when pomodoro-break-timer finishes](https://raw.github.com/gismo141/alfred-countdown-timer/master/Resources/nc_break_over.png)
+
 ##Meta
 
 Daniel Bader – [@dbader_org](https://twitter.com/dbader_org) – mail@dbader.org
