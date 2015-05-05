@@ -30,9 +30,47 @@ import time
 import subprocess
 import os
 import objc
+import signal
 
 
 def main():
+
+    # setup interrupt
+    signal.signal(signal.SIGINT, handler)
+
+    try:
+        actions = ["killall", "kall"]
+        token = (sys.argv[1]).lower()
+        if token in actions:
+            if token == actions[0] or token == actions[1]:
+                map(lambda x: int_process_if_possible(x), all_timers_pid())
+                # even though, every timer is well behaving.
+                # If we force quit (kill -9) a python binary,
+                # it will *not* run the finially clause
+                #
+                # Should I clean or should I not.
+                #
+                # clear_timers_files()
+            sys.exit(0)
+
+    except Exception as inst:
+        print type(inst)     # the exception instance
+        print inst.args      # arguments stored in .args
+        print inst           # __str__ allows args to be printed directly
+        show_usage()
+        sys.exit(1)
+
+    try:
+        open(timers_folder()+'/'+pid(), 'a').close()
+
+        # Land of blocking operations
+        do_setTimer()
+    finally:
+        os.remove(timers_folder()+'/'+pid())
+
+
+def do_setTimer():
+
     interval = parse_time()
     minutes = interval / 60
     seconds = interval % 60
@@ -77,7 +115,50 @@ def parse_time():
 
 
 def show_usage():
-    notify('Timer usage', 'timer [minutes] [optional: title]')
+    notify('Timer usage', 'timer [minutes|killall|kall] [optional: title]')
+
+
+def pwd():
+     return os.path.dirname(os.path.realpath(__file__))
+
+
+def pid():
+    return str(os.getpid())
+
+
+def timers_folder():
+    timer_hangout_place = pwd()+'/timers'
+    if not os.path.exists(timer_hangout_place):
+        os.makedirs(timer_hangout_place)
+    return timer_hangout_place
+
+
+def all_timers_pid():
+    timerpids = os.listdir(timers_folder())
+    return filter(lambda x: x.isdigit(), timerpids)
+
+
+def clear_timers_files():
+    timerfolder = timers_folder()
+    timersInFolder = all_timers_pid()
+    try:
+        map(lambda pidf: os.remove(timerfolder+'/'+pidf), timersInFolder)
+    except:
+        pass
+
+
+def int_process_if_possible(pid):
+    # Process doesn't exit nothing will be killed
+    # Let's hope this process id doesn't belong to some other process :/
+    #
+    # Happens when timer is killed with -9 and another process
+    # spawn up with the same process id.
+    # We can't have handler for -9 to clean up our process file.
+    subprocess.call(["kill", "-2", str(pid)])
+
+
+def handler(signum, frame):
+    pass
 
 
 def swizzle(*args):
