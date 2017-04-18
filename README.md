@@ -34,7 +34,7 @@ To use this extension you need [Alfred.app](http://www.alfredapp.com/) for OS X 
 - `timer 40 Laundry is done!` adds an optional title to the timer.
 - `timer` displays usage information.
 
-##Meta
+## Meta
 
 Daniel Bader – [@dbader_org](https://twitter.com/dbader_org) – mail@dbader.org
 
