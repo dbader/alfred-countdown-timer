@@ -141,9 +141,9 @@ def notify(title, subtitle=None):
         return
 
     notification = NSUserNotification.alloc().init()
-    notification.setTitle_(str(title))
+    notification.setTitle_(title.decode('utf-8'))
     if subtitle:
-        notification.setSubtitle_(str(subtitle))
+        notification.setSubtitle_(subtitle.decode('utf-8'))
 
     notification_center = NSUserNotificationCenter.defaultUserNotificationCenter()
     notification_center.deliverNotification_(notification)
