@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 A simple countdown timer command for Alfred.app that
@@ -25,19 +25,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
+import json
+import os
+import subprocess
 import sys
 import time
-import subprocess
-import os
-import objc
 
 
-def main():
-    interval = parse_time()
+def main(argv):
+    interval = parse_time(argv)
     minutes = interval / 60
     seconds = interval % 60
 
-    label = ' '.join(sys.argv[2:])
+    label = ' '.join(argv[1:])
     title = 'Timer started' + (': %s' % label.capitalize() if label else '.')
 
     if minutes and seconds:
@@ -58,12 +58,12 @@ def main():
     play_sound('alarm.m4a')
 
 
-def parse_time():
+def parse_time(argv):
     """Parse and return the desired countdown duration in seconds from
     the commandline.
     """
     try:
-        duration = sys.argv[1]
+        duration = argv[0]
         if ':' in duration:
             # Minutes and seconds, e.g. "5:30"
             minutes, seconds = duration.split(':')
@@ -80,73 +80,12 @@ def show_usage():
     notify('Timer usage', 'timer [minutes] [optional: title]')
 
 
-def swizzle(*args):
-    """
-    Decorator to override an ObjC selector's implementation with a
-    custom implementation ("method swizzling").
-
-    Use like this:
-
-    @swizzle(NSOriginalClass, 'selectorName')
-    def swizzled_selectorName(self, original):
-        --> `self` points to the instance
-        --> `original` is the original implementation
-
-    Originally from http://klep.name/programming/python/
-
-    (The link was dead on 2013-05-22 but the Google Cache version works:
-    http://goo.gl/ABGvJ)
-    """
-    cls, SEL = args
-
-    def decorator(func):
-        old_IMP = cls.instanceMethodForSelector_(SEL)
-
-        def wrapper(self, *args, **kwargs):
-            return func(self, old_IMP, *args, **kwargs)
-
-        new_IMP = objc.selector(wrapper, selector=old_IMP.selector,
-                                signature=old_IMP.signature)
-        objc.classAddMethod(cls, SEL, new_IMP)
-        return wrapper
-
-    return decorator
-
-
-@swizzle(objc.lookUpClass('NSBundle'), b'bundleIdentifier')
-def swizzled_bundleIdentifier(self, original):
-    """Swizzle [NSBundle bundleIdentifier] to make NSUserNotifications
-    work.
-
-    To post NSUserNotifications OS X requires the binary to be packaged
-    as an application bundle. To circumvent this restriction, as it would
-    be difficult (impossible?) to implement in an Alfred Extension,
-    we modify `bundleIdentifier` to return a fake bundle identifier.
-
-    Original idea for this approach by Norio Numura:
-        https://github.com/norio-nomura/usernotification
-    """
-    # Return Alfred's bundle identifier to display the Alfred.app logo.
-    if 'Alfred 2' in os.getcwd():
-        return 'com.runningwithcrayons.Alfred-2'
-    else:
-        return 'com.alfredapp.Alfred'
-
-
-def notify(title, subtitle=None):
-    """Display a NSUserNotification on Mac OS X >= 10.8"""
-    NSUserNotification = objc.lookUpClass('NSUserNotification')
-    NSUserNotificationCenter = objc.lookUpClass('NSUserNotificationCenter')
-    if not NSUserNotification or not NSUserNotificationCenter:
-        return
-
-    notification = NSUserNotification.alloc().init()
-    notification.setTitle_(title.decode('utf-8'))
-    if subtitle:
-        notification.setSubtitle_(subtitle.decode('utf-8'))
-
-    notification_center = NSUserNotificationCenter.defaultUserNotificationCenter()
-    notification_center.deliverNotification_(notification)
+def notify(title, text=None):
+    subprocess.Popen([
+        'osascript', 
+        '-e', 
+        f'''tell application id "com.runningwithcrayons.Alfred" to run trigger "notification" in workflow "org.dbader.alfred.timer" with argument "{title}|||{text}"'''
+    ])
 
 
 def play_sound(filename):
@@ -155,4 +94,8 @@ def play_sound(filename):
 
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) > 1:
+        argv = sys.argv[1].split()
+    else:
+        argv = []
+    main(argv)
